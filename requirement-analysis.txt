@@ -1,0 +1,49 @@
+Entities : 
+Users
+Tours
+Locations
+Reviews
+Bookings
+
+
+Collections :
+Users - [
+    {
+        _id:ObjectId,
+        name:"fahim",
+        email:"fahim@gmail.com",
+    }
+]
+
+Reviews : { --> parent referencing
+    _id:ObjectId,
+    review:"good",
+    rating:4.5,
+    user:ObjectId,
+    tour:ObjectId
+}
+
+Booking : { --> parent referencing
+    _id:ObjectId,
+    tour:ObjectId,
+    user:ObjectId,
+    status:pending,
+}
+
+Tour : {
+    _id:ObjectId,
+    tourName:"Dhaka to cox bazar",
+    Locations:[--> Embedding
+        {
+            area:'ST. Martin'
+        },
+        {
+            area:'ST. Martin2'
+        }
+    ],
+}
+
+Relation of Database:
+1. One to One = user - profile (One user has exactly one profile, and one profile is associated with exactly one user. Each user is uniquely linked to a profile.)
+2. One to Many / Many to One = user - bookings  (One user can have multiple bookings (one-to-many), but each booking is associated with only one user (many-to-one).)
+3. Many to Many = user - tour bookings (One user can book multiple tours, and each tour can have multiple users. This is a many-to-many relationship,)
