@@ -25,6 +25,8 @@ const reviewSchema = new Schema<IReview>(
   { timestamps: true },
 )
 
+reviewSchema.index({ tour: 1, user: 1 }, { unique: true })
+
 const ReviewModel = model<IReview>('Review', reviewSchema)
 
 export default ReviewModel

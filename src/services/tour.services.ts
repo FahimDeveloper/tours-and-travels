@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ITour } from '../interfaces/tour.interface'
 import TourModel from '../models/tour.model'
 
@@ -12,7 +13,7 @@ const getAllToursFromDB = async (): Promise<Array<ITour>> => {
 }
 
 const getSingleTourFromDB = async (id: string): Promise<ITour | null> => {
-  const result = await TourModel.findById(id)
+  const result = await TourModel.findById(id).populate('reviews')
   return result
 }
 
@@ -32,10 +33,17 @@ const deleteTourFromDB = async (id: string): Promise<ITour | null> => {
   return result
 }
 
+const getNextSchedule = async (id: string): Promise<any> => {
+  const result = await TourModel.findById(id)
+  const nextSchedule = result?.getNextNearestStartDateAndEndDate()
+  return { result, nextSchedule }
+}
+
 export const TourServices = {
   createTourIntoDB,
   getAllToursFromDB,
   getSingleTourFromDB,
   updateTourIntoDB,
   deleteTourFromDB,
+  getNextSchedule,
 }

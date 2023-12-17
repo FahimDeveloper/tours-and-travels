@@ -90,10 +90,29 @@ const deleteTour = async (req: Request, res: Response) => {
   }
 }
 
-export const TourController = {
+const getNextSchedule = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+    const result = await TourServices.getNextSchedule(id)
+    res.status(200).json({
+      success: true,
+      message: 'Nearest Schedule fatched successfully',
+      data: result,
+    })
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: 'Nearest Schedule fatched failed',
+      error: error,
+    })
+  }
+}
+
+export const tourController = {
   createTour,
   getAllTours,
   getSingleTour,
   updateTour,
   deleteTour,
+  getNextSchedule,
 }
