@@ -1,110 +1,81 @@
-import { Request, Response } from 'express'
+import { RequestHandler } from 'express'
 import { TourServices } from '../services/tour.services'
+import { sendSuccessResponse } from '../utils/sendSuccessResponse'
 
-const createTour = async (req: Request, res: Response) => {
+const createTour: RequestHandler = async (req, res, next) => {
   try {
     const tourData = req.body
     const result = await TourServices.createTourIntoDB(tourData)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'Tour created successfully',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Tour create failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const getAllTours = async (req: Request, res: Response) => {
+const getAllTours: RequestHandler = async (req, res, next) => {
   try {
     const result = await TourServices.getAllToursFromDB()
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'All tours successfully retrieved',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Tours retrieved failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const getSingleTour = async (req: Request, res: Response) => {
+const getSingleTour: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params
     const result = await TourServices.getSingleTourFromDB(id)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'Tour successfully retrieved',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Tour retrieved failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const updateTour = async (req: Request, res: Response) => {
+const updateTour: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params
     const data = req.body
     const result = await TourServices.updateTourIntoDB(id, data)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'Tour updated successfully',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Tour updated failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const deleteTour = async (req: Request, res: Response) => {
+const deleteTour: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params
     await TourServices.deleteTourFromDB(id)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'Tour deleted successfully',
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Tour deleted failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const getNextSchedule = async (req: Request, res: Response) => {
+const getNextSchedule: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params
     const result = await TourServices.getNextSchedule(id)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'Nearest Schedule fatched successfully',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Nearest Schedule fatched failed',
-      error: error,
-    })
+    next(error)
   }
 }
 

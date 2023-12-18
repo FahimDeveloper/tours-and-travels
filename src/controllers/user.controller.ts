@@ -1,92 +1,72 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import { userServices } from '../services/user.services'
+import { sendSuccessResponse } from '../utils/sendSuccessResponse'
 
-const createUser = async (req: Request, res: Response) => {
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userData = req.body
     const result = await userServices.createUserIntoDB(userData)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'User created successfully',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'User create failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const getAllUsers = async (req: Request, res: Response) => {
+const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await userServices.getAllUsersFromDB()
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'All users successfully retrieved',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Users retrieved failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const getSingleUser = async (req: Request, res: Response) => {
+const getSingleUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { id } = req.params
     const result = await userServices.getSingleUserFromDB(id)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'User successfully retrieved',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'User retrieved failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const updateUser = async (req: Request, res: Response) => {
+const updateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
     const data = req.body
     const result = await userServices.updateUserIntoDB(id, data)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'User updated successfully',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'User updated failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const deleteUser = async (req: Request, res: Response) => {
+const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { id } = req.params
     await userServices.deleteUserFromDB(id)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'User deleted successfully',
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'User deleted failed',
-      error: error,
-    })
+    next(error)
   }
 }
 

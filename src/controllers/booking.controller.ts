@@ -1,92 +1,68 @@
-import { Request, Response } from 'express'
+import { RequestHandler } from 'express'
 import { BookingServices } from '../services/booking.services'
+import { sendSuccessResponse } from '../utils/sendSuccessResponse'
 
-const createBooking = async (req: Request, res: Response) => {
+const createBooking: RequestHandler = async (req, res, next) => {
   try {
     const bookingData = req.body
     const result = await BookingServices.createBookingIntoDB(bookingData)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'Booking created successfully',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Booking create failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const getAllBookings = async (req: Request, res: Response) => {
+const getAllBookings: RequestHandler = async (req, res, next) => {
   try {
     const result = await BookingServices.getAllBookingsFromDB()
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'All bookings successfully retrieved',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Bookings retrieved failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const getSingleBooking = async (req: Request, res: Response) => {
+const getSingleBooking: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params
     const result = await BookingServices.getSingleBookingFromDB(id)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'Booking successfully retrieved',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Booking retrieved failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const updateBooking = async (req: Request, res: Response) => {
+const updateBooking: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params
     const data = req.body
     const result = await BookingServices.updateBookingIntoDB(id, data)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'Booking updated successfully',
       data: result,
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Booking updated failed',
-      error: error,
-    })
+    next(error)
   }
 }
 
-const deleteBooking = async (req: Request, res: Response) => {
+const deleteBooking: RequestHandler = async (req, res, next) => {
   try {
     const { id } = req.params
     await BookingServices.deleteBookingFromDB(id)
-    res.status(200).json({
-      success: true,
+    sendSuccessResponse(res, {
       message: 'Booking deleted successfully',
     })
   } catch (error) {
-    res.status(400).json({
-      success: false,
-      message: 'Booking deleted failed',
-      error: error,
-    })
+    next(error)
   }
 }
 

@@ -1,9 +1,8 @@
 import express, { Application, Request, Response } from 'express'
 import cors from 'cors'
-import { userRoutes } from './routes/user.route'
-import { tourRoutes } from './routes/tour.route'
-import { reviewRoutes } from './routes/review.route'
-import { bookingRoutes } from './routes/booking.route'
+import { globarErrorHandler } from './middlewares/globalErrorHandler'
+import { notFound } from './middlewares/notFound'
+import globalRoute from './routes'
 
 const app: Application = express()
 
@@ -11,16 +10,21 @@ const app: Application = express()
 app.use(express.json())
 app.use(cors())
 
-//routes
-app.use('/api/v1/users', userRoutes)
-app.use('/api/v1/tours', tourRoutes)
-app.use('/api/v1/reviews', reviewRoutes)
-app.use('/api/v1/bookings', bookingRoutes)
+// inital route
 app.get('/', (req: Request, res: Response) => {
   res.status(200).json({
     status: 'success',
     message: 'Welcome to tours and travel agency!',
   })
 })
+
+//globalRoutes
+app.use('/api/v1', globalRoute)
+
+//catch not found routes
+app.use(notFound)
+
+//global error handler
+app.use(globarErrorHandler)
 
 export default app

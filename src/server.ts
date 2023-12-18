@@ -6,7 +6,7 @@ const port = config.port
 
 const dbConnection = async () => {
   try {
-    await mongoose.connect(`${config.database_url_local}`)
+    await mongoose.connect(`${config.database_url}`)
     app.listen(port, () => {
       console.log(`Example app listening on port ${port}`)
     })

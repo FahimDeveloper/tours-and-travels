@@ -3,6 +3,9 @@ import ReviewModel from '../models/review.model'
 
 const createReviewIntoDB = async (data: IReview): Promise<IReview> => {
   const result = await ReviewModel.create(data)
+  if (result) {
+    ReviewModel.calcAverageRatings(result?.tour)
+  }
   return result
 }
 
@@ -27,6 +30,9 @@ const updateReviewIntoDB = async (
     new: true,
     runValidators: true,
   })
+  if (result) {
+    ReviewModel.calcAverageRatings(result?.tour)
+  }
   return result
 }
 
