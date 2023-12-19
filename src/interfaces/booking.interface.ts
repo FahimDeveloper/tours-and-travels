@@ -1,7 +1,9 @@
 import { Schema } from 'mongoose'
 
 export interface IBooking {
-  tour: Schema.Types.ObjectId
   user: Schema.Types.ObjectId
-  status: string
+  tour: Schema.Types.ObjectId
+  bookedSlots: number
+  price: number
+  bookingStatus: 'pending' | 'paid' | 'cancelled'
 }

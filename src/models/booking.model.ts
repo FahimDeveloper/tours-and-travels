@@ -13,8 +13,17 @@ const bookingSchema = new Schema<IBooking>(
       ref: 'User',
       required: true,
     },
-    status: {
+    bookingStatus: {
       type: String,
+      enum: ['pending', 'paid', 'cancelled'],
+      required: true,
+    },
+    bookedSlots: {
+      type: Number,
+      required: true,
+    },
+    price: {
+      type: Number,
       required: true,
     },
   },

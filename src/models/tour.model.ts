@@ -17,6 +17,10 @@ const tourSchema = new Schema<ITour, TTourModel, ITourMethods>(
       type: Number,
       required: true,
     },
+    availableSeats: {
+      type: Number,
+      required: true,
+    },
     ratingQuantity: {
       type: Number,
       required: true,

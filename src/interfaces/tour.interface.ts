@@ -4,6 +4,7 @@ export interface ITour {
   name: string
   durationHours: number
   ratingAverage: number
+  availableSeats: number
   ratingQuantity: number
   price: number
   imageCover: string
